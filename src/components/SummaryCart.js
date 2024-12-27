@@ -40,7 +40,7 @@ const SummaryCart = () => {
           <h2 className="card-title font-bold text-2xl">Ringkasan Belanja</h2>
           <div className="flex justify-between mt-4">
             <p>Total</p>
-            <p>$ {priceTotal}</p>
+            <p>Rp {priceTotal}</p>
           </div>
           <p>product belum di ceklis makanya total dan quantity belum ada</p>
         </div>

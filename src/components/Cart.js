@@ -30,6 +30,10 @@ const Cart = () => {
 
   return (
     <div className="p-4">
+      <div className="flex gap-4 mb-8">
+        <input type="checkbox"></input>
+        <p>Pilih Semua</p>
+      </div>
       <EachUtils
         of={Object.keys(groupedItemsStore)}
         render={(storeName, index) => {
