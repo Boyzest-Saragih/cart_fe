@@ -23,22 +23,23 @@ const useCartApi = () => {
         quantity:
           action === "increment" ? item.quantity + 1 : item.quantity - 1,
       });
+      await getCartItem();
     } catch (error) {
       console.log(error);
     }
-    getCartItem();
   };
 
-  const updateIsChecked = async (item, action) => {
+  const updateIsChecked = async (item, isCheck) => {
     try {
       await Apifetch("PUT", `/cart/checked/${item.id}`, {
-        is_checked:
-          action === "checked" ? (item.is_checked = 1) : (item.is_checked = 0),
+        is_checked: isCheck,
       });
+      await getCartItem();
     } catch (error) {
-      console.log(error);
+      console.log("Error updating is_checked:", error);
     }
   };
+  
 
   return {
     data,

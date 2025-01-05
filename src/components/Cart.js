@@ -3,13 +3,13 @@ import EachUtils from "../utils/EachUtils";
 import useCartApi from "../hooks/useCartApi";
 import CartStore from "../utils/CartStore";
 
-
 const Cart = () => {
-  const {data, isLoading, getCartItem, updateCartItem} = useCartApi()
+  const { data, isLoading, getCartItem, updateCartItem, updateIsChecked } =
+    useCartApi();
 
   useEffect(() => {
-    getCartItem()
-  },[]);
+    getCartItem();
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -27,7 +27,6 @@ const Cart = () => {
     return acc;
   }, {});
 
-
   return (
     <div className="p-4">
       <div className="flex gap-4 mb-8">
@@ -43,8 +42,9 @@ const Cart = () => {
               key={index}
               storeName={storeName}
               items={storeItems}
-              onIncrement={(item)=>updateCartItem(item, "increment")}
-              onDecrement={(item)=>updateCartItem(item, "decrement")}
+              onIncrement={(item) => updateCartItem(item, "increment")}
+              onDecrement={(item) => updateCartItem(item, "decrement")}
+              isCheck={(item, isChecked) => updateIsChecked(item, isChecked)}
             />
           );
         }}

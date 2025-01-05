@@ -1,10 +1,25 @@
 import React from "react";
 import { GrSubtractCircle, GrAddCircle } from "react-icons/gr";
 
-const CartItem = ({ item, onIncrement, onDecrement }) => {
+const CartItem = ({ item, onIncrement, onDecrement, isCheck }) => {
+  if (!item || !item.id) {
+    console.error("Invalid item in CartItem", item);
+  }
+
+  const handleCheck = (e) => {
+    const isChecked = e.target.checked ? 1 : 0;
+    console.log(e.target.checked);
+    isCheck(item, isChecked);
+  };
   return (
     <div className="flex gap-4 items-start">
-      <input type="checkbox" value={1} className="mt-14"></input>
+      <input
+        type="checkbox"
+        checked={item.is_checked === 1}
+        onChange={(e) => handleCheck(e)}
+        className="mt-14"
+      />
+
       <div className="flex items-center h-36 w-full">
         <img
           className="w-[100px] h-[100px] rounded-2xl mr-4 object-cover"
