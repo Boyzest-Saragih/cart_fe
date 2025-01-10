@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../context/CartContext";
 
 const SummaryCart = () => {
   const { data, isLoading, getCartItem } = useCartContext();
   const [quantity, setQuantity] = useState(0);
   const [priceTotal, setPriceTotal] = useState(0);
+  const navigate = useNavigate()
 
   useEffect(() => {
     getCartItem(); 
@@ -25,6 +27,10 @@ const SummaryCart = () => {
     }
   }, [data]);
 
+  const handleCheckout =()=>{
+    navigate("/checkout")
+  }
+
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>No data</div>;
 
@@ -38,7 +44,7 @@ const SummaryCart = () => {
             <p>Rp {priceTotal}</p>
           </div>
         </div>
-        <button className="btn bg-green-600 p-1 rounded-xl mb-0 text-xl text-white">
+        <button onClick={handleCheckout} className="btn bg-green-600 p-1 rounded-xl mb-0 text-xl text-white">
           {`beli (${quantity})`}
         </button>
       </div>
