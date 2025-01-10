@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import useCartApi from "../hooks/useCartApi";
+import { useCartContext } from "../context/CartContext";
 
 const SummaryCart = () => {
-  const { data, isLoading, getCartItem } = useCartApi();
+  const { data, isLoading, getCartItem } = useCartContext();
   const [quantity, setQuantity] = useState(0);
   const [priceTotal, setPriceTotal] = useState(0);
 
   useEffect(() => {
-    getCartItem();
-  }, []);
+    getCartItem(); 
+  }, []); 
 
   useEffect(() => {
     if (data && data.result) {
@@ -17,8 +17,7 @@ const SummaryCart = () => {
       data.result.forEach((item) => {
         if (item.is_checked) {
           totalQuantity += item.quantity;
-          let price = parseFloat(item.price);
-          totalPrice += price;
+          totalPrice += item.quantity * parseFloat(item.price);
         }
       });
       setPriceTotal(totalPrice);
@@ -26,13 +25,9 @@ const SummaryCart = () => {
     }
   }, [data]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (!data) {
-    return <div>No data</div>;
-  }
-  console.log(data);
+  if (isLoading) return <div>Loading...</div>;
+  if (!data) return <div>No data</div>;
+
   return (
     <div className="card bg-base-100 w-96 h-56 mt-24 p-4 shadow-xl ml-24 rounded-2xl">
       <div className="card-body flex flex-col justify-between h-full">
