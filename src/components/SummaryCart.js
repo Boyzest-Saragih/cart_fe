@@ -6,11 +6,11 @@ const SummaryCart = () => {
   const { data, isLoading, getCartItem } = useCartContext();
   const [quantity, setQuantity] = useState(0);
   const [priceTotal, setPriceTotal] = useState(0);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getCartItem(); 
-  }, []); 
+    getCartItem();
+  }, []);
 
   useEffect(() => {
     if (data && data.result) {
@@ -26,13 +26,18 @@ const SummaryCart = () => {
       setQuantity(totalQuantity);
     }
   }, [data]);
-
-  const handleCheckout =()=>{
-    navigate("/checkout")
-  }
-
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>No data</div>;
+
+  const handleCheckout = () => {
+    let item = data.result;
+
+    for (let i = 0; i < item.length; i++) {
+      if (item[i].is_checked == 1) {
+        return navigate("/checkout");
+      }
+    }
+  };
 
   return (
     <div className="card bg-base-100 w-96 h-56 mt-24 p-4 shadow-xl ml-24 rounded-2xl">
@@ -44,7 +49,10 @@ const SummaryCart = () => {
             <p>Rp {priceTotal}</p>
           </div>
         </div>
-        <button onClick={handleCheckout} className="btn bg-green-600 p-1 rounded-xl mb-0 text-xl text-white">
+        <button
+          onClick={handleCheckout}
+          className="btn bg-green-600 p-1 rounded-xl mb-0 text-xl text-white"
+        >
           {`beli (${quantity})`}
         </button>
       </div>

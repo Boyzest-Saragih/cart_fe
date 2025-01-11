@@ -29,7 +29,7 @@ const CartItem = ({ item, onIncrement, onDecrement, isCheck }) => {
         <div className="flex-1">
           <div className="flex justify-between mb-2">
             <h4 className="text-lg font-medium">{item.product_name}</h4>
-            <p className="font-semibold">Rp {item.price}</p>
+            <p className="font-semibold">Rp {item.price.toLocaleString()}</p>
           </div>
           <div className="flex justify-between mb-2">
             <p className="text-sm text-gray-600">{item.category_name}</p>

@@ -13,11 +13,15 @@ const Order = () => {
     return <div>Loading...</div>;
   }
 
-  if (!data) {
+  if (!data || !data.result || data.result.length === 0) {
     return <div>No data</div>;
   }
 
-  const groupedItemsStore = data.result.reduce((acc, item) => {
+  // Filter items with is_checked === 1
+  const filteredItems = data.result.filter((item) => item.is_checked === 1);
+
+  // Group filtered items by store name
+  const groupedItemsStore = filteredItems.reduce((acc, item) => {
     if (!acc[item.name]) {
       acc[item.name] = [];
     }
@@ -25,7 +29,7 @@ const Order = () => {
     return acc;
   }, {});
 
-  console.log(data.result);
+  console.log(filteredItems);
 
   return (
     <>
@@ -45,14 +49,15 @@ const Order = () => {
                 <ul>
                   {items.map((item) => (
                     <li key={item.id} className="mb-4">
-                      <div className="">
+                      <div>
                         <div className="flex justify-between">
                           <div className="flex gap-8">
                             <img
                               className="w-[100px] h-[100px] rounded-2xl mr-4 object-cover border-l-black"
                               src={item.image}
+                              alt={item.product_name}
                             />
-                            <div className="">
+                            <div>
                               <p className="text-lg text-black font-semibold">
                                 {item.product_name}
                               </p>
@@ -60,8 +65,9 @@ const Order = () => {
                             </div>
                           </div>
                           <div>
-                            <strong className="text-lg"></strong>{" "}
-                            {item.quantity} x {item.price}
+                            <p>
+                              {item.quantity} x Rp {item.price.toLocaleString()}
+                            </p>
                           </div>
                         </div>
                       </div>
