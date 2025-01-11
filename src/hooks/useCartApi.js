@@ -21,6 +21,31 @@ const useCartApi = () => {
     const newQuantity =
       action === "increment" ? item.quantity + 1 : item.quantity - 1;
   
+    if (newQuantity < 1) {
+      const confirmDelete = window.confirm(
+        "Jumlah product akan menjadi 0. Apakah Anda ingin menghapus produk ini dari cart?"
+      );
+  
+      if (confirmDelete) {
+        await deleteCartItem(item.id);
+        return;
+      } else {
+        setData((prevData) => {
+          const updatedItems = prevData.result.map((cartItem) =>
+            cartItem.id === item.id ? { ...cartItem, quantity: 1 } : cartItem
+          );
+          return { ...prevData, result: updatedItems };
+        });
+  
+        try {
+          await Apifetch("PUT", `/cart/quantity/${item.id}`, { quantity: 1 });
+        } catch (error) {
+          console.log("Error updating quantity:", error);
+        }
+        return;
+      }
+    }
+  
     setData((prevData) => {
       const updatedItems = prevData.result.map((cartItem) =>
         cartItem.id === item.id ? { ...cartItem, quantity: newQuantity } : cartItem
@@ -51,6 +76,31 @@ const useCartApi = () => {
     }
   };
   
+  const deleteCartItem = async (itemId) => {
+    try {
+      await Apifetch("DELETE", `/cart/item/${itemId}`);
+      setData((prevData) => {
+        const updatedItems = prevData.result.filter((item) => item.id !== itemId);
+        return { ...prevData, result: updatedItems };
+      });
+    } catch (error) {
+      console.log("Error deleting item:", error);
+    }
+  };
+  
+  const deleteStoreItems = async (storeName) => {
+    try {
+      await Apifetch("DELETE", `/cart/store/${storeName}`);
+      setData((prevData) => {
+        const updatedItems = prevData.result.filter((item) => item.store_name !== storeName);
+        return { ...prevData, result: updatedItems };
+      });
+      getCartItem();
+    } catch (error) {
+      console.log("Error deleting store items:", error);
+    }
+  };
+  
   
 
   return {
@@ -59,6 +109,8 @@ const useCartApi = () => {
     getCartItem,
     updateCartItem,
     updateIsChecked,
+    deleteCartItem,
+    deleteStoreItems,
   };
 };
 
