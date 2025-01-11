@@ -4,7 +4,7 @@ import CartStore from "../utils/CartStore";
 import { useCartContext } from "../context/CartContext";
 
 const Cart = () => {
-  const { data, isLoading, getCartItem, updateCartItem, updateIsChecked } =
+  const { data, isLoading, getCartItem, updateCartItem, updateIsChecked, deleteCartItem, deleteStoreItems } =
     useCartContext();
 
   const [selectAll, setSelectAll] = useState(false); 
@@ -57,6 +57,15 @@ const Cart = () => {
     });
   };
 
+  const handleDeleteItem = (itemId) => {
+    deleteCartItem(itemId);
+  };
+
+  const handleDeleteStore = (storeName) => {
+    deleteStoreItems(storeName);
+  };
+
+  
   return (
     <div className="p-4">
       <div className="flex gap-4 mb-8">
@@ -84,6 +93,8 @@ const Cart = () => {
                 isCheck={(item, isChecked) => updateIsChecked(item, isChecked)}
                 handleStoreSelect={() => handleStoreSelect(storeName)}
                 isStoreChecked={isStoreChecked}
+                onDeleteItem={handleDeleteItem}
+                onDeleteStore={handleDeleteStore}
               />
             </div>
           );
