@@ -29,6 +29,12 @@ const SummaryCart = () => {
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>No data</div>;
 
+  if(data.result.length === 0) {
+    return <div className="flex justify-center items-center h-96">
+      <h1 className="font-bold text-[20px]">Cart is empty.....</h1>
+    </div>;
+  }
+
   const handleCheckout = () => {
     let item = data.result;
 
@@ -46,7 +52,7 @@ const SummaryCart = () => {
           <h2 className="card-title font-bold text-2xl">Ringkasan Belanja</h2>
           <div className="flex justify-between mt-4">
             <p>Total</p>
-            <p>Rp {priceTotal}</p>
+            <p>Rp {priceTotal.toLocaleString()}</p>
           </div>
         </div>
         <button

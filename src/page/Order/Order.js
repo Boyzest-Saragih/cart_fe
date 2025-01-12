@@ -1,13 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useCartContext } from "../../context/CartContext";
 import CheckoutSection from "../../components/CheckoutSection";
 
 const Order = () => {
-  const { data, isLoading, getCartItem } = useCartContext();
+  const { data, isLoading, getCartItem, updateNote } = useCartContext();
 
   useEffect(() => {
     getCartItem();
   }, []);
+
+  const filteredItems = useMemo(() => {
+    return data?.result?.filter((item) => item.is_checked === 1) || [];
+  }, [data?.result]);
+
+  const groupedItemsStore = useMemo(() => {
+    return filteredItems.reduce((acc, item) => {
+      if (!acc[item.name]) {
+        acc[item.name] = [];
+      }
+      acc[item.name].push(item);
+      return acc;
+    }, {});
+  }, [filteredItems]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -17,19 +31,11 @@ const Order = () => {
     return <div>No data</div>;
   }
 
-  // Filter items with is_checked === 1
-  const filteredItems = data.result.filter((item) => item.is_checked === 1);
-
-  // Group filtered items by store name
-  const groupedItemsStore = filteredItems.reduce((acc, item) => {
-    if (!acc[item.name]) {
-      acc[item.name] = [];
-    }
-    acc[item.name].push(item);
-    return acc;
-  }, {});
-
-  console.log(filteredItems);
+  const handleNoteChange = (e, itemId) => {
+    const updatedNote = e.target.value;
+    updateNote(itemId, updatedNote);
+  };
+  
 
   return (
     <>
@@ -40,7 +46,7 @@ const Order = () => {
             ([storeName, items], index) => (
               <div
                 key={storeName}
-                className="mb-6 border border-gray-300 rounded-lg p-4"
+                className="w-[800px] mb-6 border border-gray-300 rounded-lg p-4"
               >
                 <h2 className="text-1xl font-semibold mb-1 text-gray-600">
                   PESANAN {index + 1}
@@ -61,7 +67,16 @@ const Order = () => {
                               <p className="text-lg text-black font-semibold">
                                 {item.product_name}
                               </p>
-                              <p className="text-gray-600">{item.note}</p>
+                              <form className="">
+                                <input
+                                  className=" border border-gray-200 rounded-lg p-2 w-96 mt-2"
+                                  type="text"
+                                  id="note"
+                                  placeholder={item.note}
+                                  value={item.note || ""}
+                                  onChange={(e) => handleNoteChange(e, item.id)}
+                                />
+                              </form>
                             </div>
                           </div>
                           <div>

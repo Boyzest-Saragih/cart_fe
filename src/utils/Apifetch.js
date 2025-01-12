@@ -5,15 +5,16 @@ const Apifetch = async (method, endpoint, data = null) => {
   const config = {
     method,
     url: `${baseUrl}${endpoint}`,
-    data, //untuk post dan put
+    data,
   };
 
   try {
     const response = await axios(config);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error("API Error:", error);
   }
 };
+
 
 export default Apifetch;

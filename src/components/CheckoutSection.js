@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../context/CartContext";
 
 const SummaryCart = () => {
-  const { data, isLoading, getCartItem } = useCartContext();
+  const { data, isLoading, getCartItem, deleteCartAfterCheckout } =
+    useCartContext();
   const [quantity, setQuantity] = useState(0);
   const [priceTotal, setPriceTotal] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,30 +38,32 @@ const SummaryCart = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    deleteCartAfterCheckout();
+    navigate("/");
   };
 
   return (
-    <div className="card bg-base-100 w-96 h-80 mt-24 p-8 shadow-xl ml-24 rounded-2xl">
+    <div className="card bg-base-100 w-2/5 h-80 mt-24 p-8 shadow-xl ml-24 rounded-2xl">
       <div className="card-body flex flex-col justify-between h-full">
         <div>
           <h2 className="card-title font-bold text-2xl">Metode Pembayaran</h2>
           <div className="flex justify-between mt-4">
             <p>Total Harga</p>
-            <p>Rp {priceTotal}</p>
+            <p>Rp {priceTotal.toLocaleString()}</p>
           </div>
           <div className="flex justify-between mt-1">
             <p>Total Ongkos Kirim</p>
-            <p>Rp {(priceTotal * 0.05).toFixed(2)}</p>
+            <p>Rp {(priceTotal * 0.05).toLocaleString()}</p>
           </div>
           <div className="flex justify-between mt-1">
             <p>Biaya Lain-Lain</p>
-            <p>Rp {(priceTotal * 0.02).toFixed(2)}</p>
+            <p>Rp {(priceTotal * 0.02).toLocaleString()}</p>
           </div>
         </div>
         <div className="flex justify-between mt-4">
           <p>Total Tagihan</p>
           <p>
-            Rp {(priceTotal + priceTotal * 0.05 + priceTotal * 0.02).toFixed(2)}
+            Rp {(priceTotal + priceTotal * 0.05 + priceTotal * 0.02).toLocaleString()}
           </p>
         </div>
         <button

@@ -4,10 +4,17 @@ import CartStore from "../utils/CartStore";
 import { useCartContext } from "../context/CartContext";
 
 const Cart = () => {
-  const { data, isLoading, getCartItem, updateCartItem, updateIsChecked, deleteCartItem, deleteStoreItems } =
-    useCartContext();
+  const {
+    data,
+    isLoading,
+    getCartItem,
+    updateCartItem,
+    updateIsChecked,
+    deleteCartItem,
+    deleteStoreItems,
+  } = useCartContext();
 
-  const [selectAll, setSelectAll] = useState(false); 
+  const [selectAll, setSelectAll] = useState(false);
   const [selectStore, setSelectStore] = useState({});
 
   useEffect(() => {
@@ -27,6 +34,10 @@ const Cart = () => {
 
   if (!data) {
     return <div>No data</div>;
+  }
+
+  if(data.result.length === 0) {
+    return
   }
 
   const groupedItemsStore = data.result.reduce((acc, item) => {
@@ -65,23 +76,20 @@ const Cart = () => {
     deleteStoreItems(storeName);
   };
 
-  
   return (
     <div className="p-4">
       <div className="flex gap-4 mb-8">
-        <input
-          type="checkbox"
-          checked={selectAll}
-          onChange={handleSelectAll}
-        />
+        <input type="checkbox" checked={selectAll} onChange={handleSelectAll} />
         <p>Pilih Semua</p>
       </div>
-      
+
       <EachUtils
         of={Object.keys(groupedItemsStore)}
         render={(storeName, index) => {
           const storeItems = groupedItemsStore[storeName];
-          const isStoreChecked = storeItems.every((item) => item.is_checked === 1);
+          const isStoreChecked = storeItems.every(
+            (item) => item.is_checked === 1
+          );
 
           return (
             <div key={index}>

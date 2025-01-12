@@ -38,8 +38,8 @@ const CartItem = ({ item, onIncrement, onDecrement, isCheck }) => {
             </p>
           </div>
           <div className="flex justify-between text-sm">
-            <p>Note: {item.note}</p>
-            <div className="flex gap-4 border p-1 rounded-xl">
+            <p className="font-sans text-gray-500 text-[12px]">{item.description}</p>
+            <div className="flex gap-4 border p-1 rounded-xl items-center">
               <button
                 onClick={() => {
                   onDecrement(item);
