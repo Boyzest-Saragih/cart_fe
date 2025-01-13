@@ -2,6 +2,9 @@ import React from "react";
 import { GrSubtractCircle, GrAddCircle } from "react-icons/gr";
 
 const CartItem = ({ item, onIncrement, onDecrement, isCheck }) => {
+  
+  // useeffect for dscount
+
   if (!item || !item.id) {
     console.error("Invalid item in CartItem", item);
   }

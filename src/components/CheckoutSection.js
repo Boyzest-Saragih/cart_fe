@@ -43,7 +43,7 @@ const SummaryCart = () => {
   };
 
   return (
-    <div className="card bg-base-100 w-2/5 h-80 mt-24 p-8 shadow-xl ml-24 rounded-2xl">
+    <div className="card bg-base-100 w-[900px] h-80 mt-24 p-8 shadow-xl ml-[30px] rounded-2xl">
       <div className="card-body flex flex-col justify-between h-full">
         <div>
           <h2 className="card-title font-bold text-2xl">Metode Pembayaran</h2>

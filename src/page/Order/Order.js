@@ -38,7 +38,7 @@ const Order = () => {
   
 
   return (
-    <>
+    < div className = "">
       <h1 className="text-3xl font-bold mb-6 pl-20 pt-8">Checkout</h1>
       <div className="flex px-48">
         <div className="container mx-auto p-4">
@@ -46,7 +46,7 @@ const Order = () => {
             ([storeName, items], index) => (
               <div
                 key={storeName}
-                className="w-[800px] mb-6 border border-gray-300 rounded-lg p-4"
+                className="w-[750px] ml-0 mb-6 border border-gray-300 rounded-lg p-4"
               >
                 <h2 className="text-1xl font-semibold mb-1 text-gray-600">
                   PESANAN {index + 1}
@@ -95,7 +95,7 @@ const Order = () => {
         </div>
         <CheckoutSection />
       </div>
-    </>
+    </div>
   );
 };
 

@@ -47,7 +47,7 @@ const Navbar = () => {
               <li>
                 <a
                   onClick={handleReset}
-                  className="block py-2 px-3 md:p-0 text-white bg-green-700 rounded md:bg-transparent md:text-green-700 md:dark:text-green-500"
+                  className="block py-2 px-3 md:p-0 text-white bg-green-700 rounded md:bg-transparent md:text-green-700 md:dark:text-green-500 cursor-pointer"
                   aria-current="page"
                 >
                   RESET
