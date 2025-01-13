@@ -1,9 +1,15 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import { GrSubtractCircle, GrAddCircle } from "react-icons/gr";
 
 const CartItem = ({ item, onIncrement, onDecrement, isCheck }) => {
+  const [priceAfterDisc, setPriceAfterDisc] = useState(item.price);
   
-  // useeffect for dscount
+  useEffect(() => {
+    if (item.discount !== 0.00) {
+      const priceAfterDisc = item.price - (item.price * item.discount) / 100;
+      setPriceAfterDisc(priceAfterDisc.toFixed());
+    }
+  })
 
   if (!item || !item.id) {
     console.error("Invalid item in CartItem", item);
@@ -32,12 +38,21 @@ const CartItem = ({ item, onIncrement, onDecrement, isCheck }) => {
         <div className="flex-1">
           <div className="flex justify-between mb-2">
             <h4 className="text-lg font-medium">{item.product_name}</h4>
-            <p className="font-semibold">Rp {item.price.toLocaleString()}</p>
+            <div className="">
+              {item.discount === null || item.discount === 0.00 || item.discount === 0 ? (
+                <p className="font-semibold">Rp {item.price.toLocaleString()}</p>
+              ) : (
+                <>
+                  <p className="font-semibold">Rp {parseInt(priceAfterDisc).toLocaleString()}</p>
+                  <p className="text-sm pl-2 text-gray-400 line-through italic">Rp {item.price.toLocaleString()}</p>
+                </>
+              )}
+            </div>
           </div>
           <div className="flex justify-between mb-2">
             <p className="text-sm text-gray-600">{item.category_name}</p>
             <p className="text-sm text-gray-600">
-              {item.discount === null ? "" : "% " + item.discount}
+              {item.discount === null ? "" :+ item.discount * 100 + "%"}
             </p>
           </div>
           <div className="flex justify-between text-sm">

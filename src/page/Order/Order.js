@@ -1,13 +1,14 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo,useState } from "react";
 import { useCartContext } from "../../context/CartContext";
 import CheckoutSection from "../../components/CheckoutSection";
 
 const Order = () => {
   const { data, isLoading, getCartItem, updateNote } = useCartContext();
-
+  
   useEffect(() => {
     getCartItem();
   }, []);
+  
 
   const filteredItems = useMemo(() => {
     return data?.result?.filter((item) => item.is_checked === 1) || [];
@@ -35,10 +36,11 @@ const Order = () => {
     const updatedNote = e.target.value;
     updateNote(itemId, updatedNote);
   };
-  
+
+  console.log(data)
 
   return (
-    < div className = "">
+    <div className="">
       <h1 className="text-3xl font-bold mb-6 pl-20 pt-8">Checkout</h1>
       <div className="flex px-48">
         <div className="container mx-auto p-4">
@@ -81,7 +83,7 @@ const Order = () => {
                           </div>
                           <div>
                             <p>
-                              {item.quantity} x Rp {item.price.toLocaleString()}
+                              {item.quantity} x Rp {item.discount === null ? item.price.toLocaleString() : (item.price - (item.price * item.discount) / 100).toLocaleString()}
                             </p>
                           </div>
                         </div>

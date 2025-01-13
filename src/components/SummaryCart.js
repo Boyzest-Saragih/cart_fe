@@ -26,13 +26,16 @@ const SummaryCart = () => {
       setQuantity(totalQuantity);
     }
   }, [data]);
+
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>No data</div>;
 
-  if(data.result.length === 0) {
-    return <div className="flex justify-center items-center h-96">
-      <h1 className="font-bold text-[20px]">Cart is empty.....</h1>
-    </div>;
+  if (data.result.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <h1 className="font-bold text-[20px]">Cart is empty.....</h1>
+      </div>
+    );
   }
 
   const handleCheckout = () => {
